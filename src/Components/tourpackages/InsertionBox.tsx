@@ -153,50 +153,64 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
     setItinerary(updatedItinerary);
   };
   const handleSubmit = async () => {
-   
-   const formData = new FormData();
-formData.append("package_name", packageName);
-formData.append("package_total_persons", packageTotalPersons);
-formData.append("package_category_id", packageCategoryId);
-formData.append("package_type_id", packageTypeId);
-formData.append("package_region_id", packageRegionId);
-formData.append("package_description", packageDescription);
-formData.append("package_rate_normal", packageRateNormal);
-formData.append("package_rate_deluxe", packageRateDeluxe);
-formData.append("package_details", JSON.stringify({
-  TripDetailsAndCostSummary: {
-    Itinerary: tableData,
-    CostIncludes: tabledataIncludepackages,
-    CostExcludes: tabledataCostExcludes,
-    Highlights: tabledataHighlights,
+  const formData = new FormData();
+  formData.append("package_name", packageName);
+  formData.append("package_total_persons", packageTotalPersons);
+  formData.append("package_category_id", packageCategoryId);
+  formData.append("package_type_id", packageTypeId);
+  formData.append("package_region_id", packageRegionId);
+  formData.append("package_description", packageDescription);
+  formData.append("package_rate_normal", packageRateNormal);
+  formData.append("package_rate_deluxe", packageRateDeluxe);
+  formData.append("package_destination_id", packageCategoryId); // Use category ID or adjust as needed
+  formData.append("package_duration", packageDuration);
+  formData.append(
+    "package_details",
+    JSON.stringify({
+      TripDetailsAndCostSummary: {
+        Itinerary: tableData,
+        CostIncludes: tabledataIncludepackages,
+        CostExcludes: tabledataCostExcludes,
+        Highlights: tabledataHighlights,
+      },
+    })
+  );
+  if (selectedFile) {
+    formData.append("file", selectedFile);
   }
-}));
-if (selectedFile) {
-  formData.append("file", selectedFile);
-}
 
-console.log(formData,"newPackage")
-    // Make axios call to add package data to the database
-    try {
+  console.log("FormData:", Object.fromEntries(formData));
+
+  try {
     const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/tourpackages/filter`,
-        formData
-      );
-      console.log("Package added successfully:", response.data);
-      // Clear input fields after successful submission
-      setPackageName("");
-      setPackageDescription("");
-      setPackageCategoryId("");
-      setPackageTypeId("");
-      setPackageRegionId("");
-      setPackageDuration("");
-      setPackageRateNormal("");
-      setPackageRateDeluxe("");
-      setPackageTotalPersons("");
-    } catch (error) {
-      console.error("Error adding package:", error);
-    }
-  };
+      `${process.env.REACT_APP_SERVER_URL}/tourpackages`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("Package added successfully:", response.data);
+    // Clear input fields after successful submission
+    setPackageName("");
+    setPackageDescription("");
+    setPackageCategoryId("");
+    setPackageTypeId("");
+    setPackageRegionId("");
+    setPackageDuration("");
+    setPackageRateNormal("");
+    setPackageRateDeluxe("");
+    setPackageTotalPersons("");
+    setTableData([]);
+    setTabledataIncludepackages([]);
+    setTabledataCostExcludes([]);
+    setTabledataHighlights([]);
+    setSelectedFile(null);
+  } catch (error) {
+    console.error("Error adding package:", error);
+  }
+};
 
   return (
     <>
