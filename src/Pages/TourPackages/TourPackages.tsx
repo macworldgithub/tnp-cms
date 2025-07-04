@@ -1,5 +1,3 @@
-
-
 import { Button, Pagination } from "antd";
 import InsertionBox from "../../Components/tourpackages/InsertionBox";
 import UpdationBox from "../../Components/tourpackages/UpdationBox";
@@ -17,7 +15,7 @@ export default function TourPackages() {
   const [openInsertBox, setOpenInsertBox] = useState(false);
   const [openUpdateBox, setOpenUpdateBox] = useState(false);
   const [editPackage, setEditPackage] = useState<any>(null);
-  const pageSize = 6;
+  const pageSize = 50;
   const totalItems = data.length;
 
   const fetchData = async () => {
@@ -79,14 +77,14 @@ export default function TourPackages() {
           >
             Add
           </Button>
-          <InsertionBox 
-            BoxState={openInsertBox} 
-            BoxStateChange={setOpenInsertBox} 
+          <InsertionBox
+            BoxState={openInsertBox}
+            BoxStateChange={setOpenInsertBox}
             onSuccess={fetchData}
           />
-          <UpdationBox 
-            BoxState={openUpdateBox} 
-            BoxStateChange={setOpenUpdateBox} 
+          <UpdationBox
+            BoxState={openUpdateBox}
+            BoxStateChange={setOpenUpdateBox}
             editPackage={editPackage}
             onSuccess={fetchData}
           />
@@ -95,52 +93,61 @@ export default function TourPackages() {
           <div className="relative justify-center items-center">
             <table className="text-md text-left text-gray-500 m-auto md:w-full h-full">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" className="pl-6 px-4 py-4 text-md font-semibold">
-                        Package Name
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Description
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Max Persons
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Duration (Days)
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Package Type
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Destination Name
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Destination Category
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Destination Region
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Deluxe Rate
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Normal Rate
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Is Featured
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Best Seller
-                      </th>
-                      <th scope="col" className="px-4 py-4 font-bold text-lg">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
+                <tr>
+                  <th
+                    scope="col"
+                    className="pl-6 px-4 py-4 text-md font-semibold"
+                  >
+                    Package Name
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Description
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Max Persons
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Duration (Days)
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Package Type
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Destination Name
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Destination Category
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Destination Region
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Deluxe Rate
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Normal Rate
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Is Featured
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Best Seller
+                  </th>
+                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
               <tbody>
                 {data?.map((item: any) => (
-                  <tr key={item.package_id} className="bg-white border-b hover:bg-gray-50">
-                    <td scope="row" className="text-gray-900 whitespace-nowrap pl-6 py-2 md:pr-0 pr-4 text-lg">
+                  <tr
+                    key={item.package_id}
+                    className="bg-white border-b hover:bg-gray-50"
+                  >
+                    <td
+                      scope="row"
+                      className="text-gray-900 whitespace-nowrap pl-6 py-2 md:pr-0 pr-4 text-lg"
+                    >
                       <div className="flex flex-row gap-2">
                         <p className="text-sm py-2">{item?.package_name}</p>
                       </div>
@@ -161,7 +168,10 @@ export default function TourPackages() {
                       {item.tnp_destinations.destination_name}
                     </td>
                     <td className="pl-4 md:pr-0 pr-4 text-md">
-                      {item.tnp_destinations.tnp_package_categories.package_category_name}
+                      {
+                        item.tnp_destinations.tnp_package_categories
+                          .package_category_name
+                      }
                     </td>
                     <td className="pl-4 md:pr-0 pr-4 text-md">
                       {item.tnp_destinations.tnp_package_regions.region_name}

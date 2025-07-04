@@ -166,7 +166,7 @@ function SideBar() {
                   isCollapsed ? "w-0" : "ms-3"
                 } font-old overflow-hidden text-base`}
               >
-                Packages
+                Packages 
               </p>
             </div>
           </Link>
