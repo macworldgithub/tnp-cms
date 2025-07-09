@@ -793,7 +793,7 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
             />
           </label>
           <label className="font-semibold w-44">
-            Package Type
+            Package Type 
             <Input
               style={{ marginTop: 5 }}
               type="text"

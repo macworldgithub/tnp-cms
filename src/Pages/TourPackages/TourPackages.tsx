@@ -162,8 +162,13 @@ export default function TourPackages() {
                       {item.package_duration}
                     </td>
                     <td className="pl-4 md:pr-0 pr-4 text-md">
-                      {item.tnp_package_types.package_type_name}
+                      {[1, 2, 3, 4].includes(
+                        item.tnp_package_types.package_type_id
+                      )
+                        ? "Tourism"
+                        : item.tnp_package_types.package_type_name}
                     </td>
+
                     <td className="pl-4 md:pr-0 pr-4 text-md">
                       {item.tnp_destinations.destination_name}
                     </td>
