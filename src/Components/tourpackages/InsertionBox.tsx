@@ -1,4 +1,3 @@
-
 // import { Button, Input, Modal, Space, Table } from "antd";
 // import { DeleteOutlined } from "@ant-design/icons";
 // import axios from "axios";
@@ -565,8 +564,12 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
   const [costIncludes, setCostIncludes] = useState<string[]>([]);
   const [costExcludes, setCostExcludes] = useState<string[]>([]);
   const [highlights, setHighlights] = useState<string[]>([]);
-  const [tabledataIncludepackages, setTabledataIncludepackages] = useState<string[]>([]);
-  const [tabledataCostExcludes, setTabledataCostExcludes] = useState<string[]>([]);
+  const [tabledataIncludepackages, setTabledataIncludepackages] = useState<
+    string[]
+  >([]);
+  const [tabledataCostExcludes, setTabledataCostExcludes] = useState<string[]>(
+    []
+  );
   const [tabledataHighlights, setTabledataHighlights] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
@@ -603,17 +606,23 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
   };
 
   const handleDeletePackage = (indexToDelete: number) => {
-    const updatedTableData = tabledataIncludepackages.filter((item, index) => index !== indexToDelete);
+    const updatedTableData = tabledataIncludepackages.filter(
+      (item, index) => index !== indexToDelete
+    );
     setTabledataIncludepackages(updatedTableData);
   };
 
   const handleDeleteCostExcludes = (indexToDelete: number) => {
-    const updatedTableData = tabledataCostExcludes.filter((item, index) => index !== indexToDelete);
+    const updatedTableData = tabledataCostExcludes.filter(
+      (item, index) => index !== indexToDelete
+    );
     setTabledataCostExcludes(updatedTableData);
   };
 
   const handleDeleteHighlights = (indexToDelete: number) => {
-    const updatedTableData = tabledataHighlights.filter((item, index) => index !== indexToDelete);
+    const updatedTableData = tabledataHighlights.filter(
+      (item, index) => index !== indexToDelete
+    );
     setTabledataHighlights(updatedTableData);
   };
 
@@ -664,7 +673,11 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
       key: "action",
       render: (text: any, record: any) => (
         <Space size="middle">
-          <Button type="link" onClick={() => handleDeleteRow(record)} icon={<DeleteOutlined />} />
+          <Button
+            type="link"
+            onClick={() => handleDeleteRow(record)}
+            icon={<DeleteOutlined />}
+          />
         </Space>
       ),
     },
@@ -760,7 +773,13 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
       onCancel={() => BoxStateChange(false)}
       width={1000}
     >
-      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="flex flex-col gap-5">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        className="flex flex-col gap-5"
+      >
         <div className="flex flex-wrap px-5 gap-2">
           <label className="font-semibold w-44">
             Package Name
@@ -793,7 +812,7 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
             />
           </label>
           <label className="font-semibold w-44">
-            Package Type 
+            Package Type
             <Input
               style={{ marginTop: 5 }}
               type="text"
@@ -861,7 +880,9 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
           </Button>
           {itinerary.map((itineraryItem, index) => (
             <div key={index}>
-              <h2 className="text-lg font-semibold">Package Itinerary {index + 1}</h2>
+              <h2 className="text-lg font-semibold">
+                Package Itinerary {index + 1}
+              </h2>
               <label className="font-semibold flex px-5 flex-col pt-5">
                 Days
                 <Input
@@ -880,7 +901,12 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
                 <label className="font-semibold w-44">
                   Event Title
                   <Input
-                    style={{ height: 100, width: 320, marginRight: 10, marginTop: 5 }}
+                    style={{
+                      height: 100,
+                      width: 320,
+                      marginRight: 10,
+                      marginTop: 5,
+                    }}
                     type="text"
                     onChange={(e) => {
                       const newItinerary = [...itinerary];
@@ -893,9 +919,7 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
                 </label>
                 <div className="flex justify-center items-center gap-4">
                   <div className="flex flex-col">
-                    <label className="font-semibold w-44">
-                      Description
-                    </label>
+                    <label className="font-semibold w-44">Description</label>
                     <Input
                       style={{ height: 100, width: 320, marginTop: 5 }}
                       type="text"
@@ -908,7 +932,10 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
                       required
                     />
                   </div>
-                  <Button className="bg-yellow-400" onClick={() => handleDone(index)}>
+                  <Button
+                    className="bg-yellow-400"
+                    onClick={() => handleDone(index)}
+                  >
                     Done
                   </Button>
                 </div>
@@ -916,7 +943,9 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
             </div>
           ))}
 
-          {tableData.length > 0 && <Table columns={columns} dataSource={tableData} />}
+          {tableData.length > 0 && (
+            <Table columns={columns} dataSource={tableData} />
+          )}
 
           <div>
             <h2 className="text-lg font-semibold">Cost Include</h2>
@@ -948,7 +977,9 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
           </div>
           {tabledataIncludepackages.length > 0 && (
             <Table
-              dataSource={tabledataIncludepackages.map((item) => ({ package: item }))}
+              dataSource={tabledataIncludepackages.map((item) => ({
+                package: item,
+              }))}
               columns={[
                 { title: "Package", dataIndex: "package", key: "package" },
                 {
@@ -998,7 +1029,9 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
           </div>
           {tabledataCostExcludes.length > 0 && (
             <Table
-              dataSource={tabledataCostExcludes.map((item) => ({ package: item }))}
+              dataSource={tabledataCostExcludes.map((item) => ({
+                package: item,
+              }))}
               columns={[
                 { title: "Cost Exclude", dataIndex: "package", key: "package" },
                 {
@@ -1048,7 +1081,9 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
           </div>
           {tabledataHighlights.length > 0 && (
             <Table
-              dataSource={tabledataHighlights.map((item) => ({ package: item }))}
+              dataSource={tabledataHighlights.map((item) => ({
+                package: item,
+              }))}
               columns={[
                 { title: "Highlights", dataIndex: "package", key: "package" },
                 {
@@ -1069,7 +1104,9 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
           )}
 
           <div>
-            <h2 className="text-lg font-semibold mt-5">Package Images (Max 3)</h2>
+            <h2 className="text-lg font-semibold mt-5">
+              Package Images (Max 3)
+            </h2>
             <label className="font-semibold px-5">
               <Input
                 style={{ width: 240, padding: "25px 10px", marginTop: 10 }}

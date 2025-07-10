@@ -894,7 +894,7 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
             />
           </label>
           <label className="font-semibold w-44">
-            Package Rates Normal
+            Package Rates Normal in AED
             <Input
               style={{ marginTop: 5 }}
               type="text"
@@ -904,7 +904,7 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
             />
           </label>
           <label className="font-semibold w-44">
-            Package Rates Deluxe
+            Package Rates Deluxe in AED 
             <Input
               style={{ marginTop: 5 }}
               type="text"

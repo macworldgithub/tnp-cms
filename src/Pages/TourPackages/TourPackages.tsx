@@ -115,12 +115,12 @@ export default function TourPackages() {
                   <th scope="col" className="px-4 py-4 font-bold text-lg">
                     Destination Name
                   </th>
-                  <th scope="col" className="px-4 py-4 font-bold text-lg">
+                  {/* <th scope="col" className="px-4 py-4 font-bold text-lg">
                     Destination Category
                   </th>
                   <th scope="col" className="px-4 py-4 font-bold text-lg">
                     Destination Region
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-4 py-4 font-bold text-lg">
                     Deluxe Rate
                   </th>
@@ -172,15 +172,15 @@ export default function TourPackages() {
                     <td className="pl-4 md:pr-0 pr-4 text-md">
                       {item.tnp_destinations.destination_name}
                     </td>
-                    <td className="pl-4 md:pr-0 pr-4 text-md">
+                    {/* <td className="pl-4 md:pr-0 pr-4 text-md">
                       {
                         item.tnp_destinations.tnp_package_categories
                           .package_category_name
                       }
-                    </td>
-                    <td className="pl-4 md:pr-0 pr-4 text-md">
+                    </td> */}
+                    {/* <td className="pl-4 md:pr-0 pr-4 text-md">
                       {item.tnp_destinations.tnp_package_regions.region_name}
-                    </td>
+                    </td> */}
                     <td className="pl-4 md:pr-0 pr-4 text-md">
                       {item.package_rate_deluxe}
                     </td>

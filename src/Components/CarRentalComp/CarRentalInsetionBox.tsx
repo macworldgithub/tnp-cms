@@ -281,7 +281,7 @@ console.log(newPackage,"newPackage")
               />
             </label>
             <label className="font-semibold w-44">
-              Package Rates Normal
+              Package Rates Normal(In AED)
               <Input
                 style={{ marginTop: 5 }}
                 type="text"
@@ -291,7 +291,7 @@ console.log(newPackage,"newPackage")
               />
             </label>
             <label className="font-semibold w-44">
-              Package Rates Deluxe
+              Package Rates Deluxe(In AED)
               <Input
                 style={{ marginTop: 5 }}
                 type="text"
