@@ -562,7 +562,8 @@
 
 // export default UpdationBox;
 import { Button, Input, Modal, Space, Table } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -687,6 +688,17 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
   const handleAddItinerary = () => {
     setItinerary([...itinerary, { days: "", event: "", description: "" }]);
   };
+  const handleEditRow = (index: number) => {
+  const selected = tableData[index];
+  setItinerary([
+    ...itinerary,
+    {
+      days: selected.days,
+      event: selected.event,
+      description: selected.description,
+    },
+  ]);
+};
 
   const handleDeleteRow = (record: any) => {
     const newTableData = tableData.filter((item) => item !== record);
@@ -705,33 +717,47 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
     setImagesToDelete([...imagesToDelete, image]);
     setExistingImages(existingImages.filter((img) => img !== image));
   };
+  
 
-  const columns = [
-    {
-      title: "Days",
-      dataIndex: "days",
-      key: "days",
-    },
-    {
-      title: "Event Title",
-      dataIndex: "event",
-      key: "event",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (text: any, record: any) => (
-        <Space size="middle">
-          <Button type="link" onClick={() => handleDeleteRow(record)} icon={<DeleteOutlined />} />
-        </Space>
-      ),
-    },
-  ];
+// Already ho chuka hoga
+
+const columns = [
+  {
+    title: "Days",
+    dataIndex: "days",
+    key: "days",
+  },
+  {
+    title: "Event Title",
+    dataIndex: "event",
+    key: "event",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_text: any, _record: any, index: number) => (
+      <Space size="middle">
+        <Button
+          type="link"
+          icon={<EditOutlined />}
+          onClick={() => handleEditRow(index)}
+        />
+        <Button
+          type="link"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() => handleDeleteRow(tableData[index])}
+        />
+      </Space>
+    ),
+  },
+];
+
 
   const handleDone = (index: number) => {
     const newTableData = [...tableData];
@@ -928,7 +954,7 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
         <div>
           <h2 className="text-lg font-semibold">Package Itineraries</h2>
           <Button type="primary" onClick={handleAddItinerary}>
-            Add Itinerary
+            Add Itinerary 
           </Button>
           {itinerary.map((itineraryItem, index) => (
             <div key={index}>
