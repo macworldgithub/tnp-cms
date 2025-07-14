@@ -41,7 +41,7 @@ function SideBar() {
                 isCollapsed ? "w-0" : "ms-3"
               } text-white font-bold overflow-hidden text-lg`}
             >
-              Triply
+              Tourism
             </p>
           </div>
 
@@ -166,7 +166,7 @@ function SideBar() {
                   isCollapsed ? "w-0" : "ms-3"
                 } font-old overflow-hidden text-base`}
               >
-                Packages 
+                Packages
               </p>
             </div>
           </Link>
