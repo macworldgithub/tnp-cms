@@ -195,7 +195,7 @@ function SideBar() {
               </p>
             </div>
           </Link>
-          <Link to={"/hotel"}>
+          {/* <Link to={"/hotel"}>
             <div
               onClick={() => setCurrOption("hotel")}
               className={`${
@@ -216,11 +216,11 @@ function SideBar() {
                   isCollapsed ? "w-0" : "ms-3"
                 } font-old overflow-hidden text-base`}
               >
-                Hotel
+                Hotel 
               </p>
             </div>
-          </Link>
-          <Link to={"/carRental"}>
+          </Link> */}
+          {/* <Link to={"/carRental"}>
             <div
               onClick={() => setCurrOption("carRental")}
               className={`${
@@ -244,7 +244,7 @@ function SideBar() {
                 Car Rental
               </p>
             </div>
-          </Link>
+          </Link> */}
           <Link to={"/settings"}>
             <div
               onClick={() => setCurrOption("settings")}

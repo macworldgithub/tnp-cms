@@ -4,13 +4,13 @@ import { BiSortAlt2 } from "react-icons/bi";
 import { useState } from "react";
 
 const data = [
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
-    { name: "Asad", email: "asad@gmail.com", flight: "Qatar",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
+    { name: "Asad", email: "asad@gmail.com", flight: "Dubai",totalMembers:16 , price:10.62 },
     
   ];
 

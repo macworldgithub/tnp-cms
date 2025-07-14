@@ -1,7 +1,7 @@
 // import React, { ReactNode } from 'react';
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
-import Header from "../Header/Header";
+// import Header from "../Header/Header";
 
 const Layout = () => {
   return (
@@ -9,7 +9,7 @@ const Layout = () => {
       <Sidebar />
 
       <main className="p-4 w-full  h-screen bg-gray-200 overflow-y-auto flex flex-col">
-        <Header />
+        {/* <Header /> */}
         <Outlet />
       </main>
     </div>
