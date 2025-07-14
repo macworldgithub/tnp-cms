@@ -1,5 +1,7 @@
+
 // import { Button, Input, Modal, Space, Table } from "antd";
-// import { DeleteOutlined } from "@ant-design/icons";
+// import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+
 // import axios from "axios";
 // import { useState, useEffect } from "react";
 
@@ -33,7 +35,9 @@
 //   const [tabledataIncludepackages, setTabledataIncludepackages] = useState<string[]>([]);
 //   const [tabledataCostExcludes, setTabledataCostExcludes] = useState<string[]>([]);
 //   const [tabledataHighlights, setTabledataHighlights] = useState<string[]>([]);
-//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+//   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+//   const [existingImages, setExistingImages] = useState<string[]>([]);
+//   const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
 
 //   useEffect(() => {
 //     if (editPackage) {
@@ -54,6 +58,7 @@
 //           setTabledataIncludepackages(details.TripDetailsAndCostSummary?.CostIncludes || []);
 //           setTabledataCostExcludes(details.TripDetailsAndCostSummary?.CostExcludes || []);
 //           setTabledataHighlights(details.TripDetailsAndCostSummary?.Highlights || []);
+//           setExistingImages(details.TripDetailsAndCostSummary?.Images || []);
 //         } catch (error) {
 //           console.error("Error parsing package_details:", error);
 //         }
@@ -121,6 +126,17 @@
 //   const handleAddItinerary = () => {
 //     setItinerary([...itinerary, { days: "", event: "", description: "" }]);
 //   };
+//   const handleEditRow = (index: number) => {
+//   const selected = tableData[index];
+//   setItinerary([
+//     ...itinerary,
+//     {
+//       days: selected.days,
+//       event: selected.event,
+//       description: selected.description,
+//     },
+//   ]);
+// };
 
 //   const handleDeleteRow = (record: any) => {
 //     const newTableData = tableData.filter((item) => item !== record);
@@ -128,38 +144,58 @@
 //   };
 
 //   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const file = e.target.files && e.target.files[0];
-//     if (file) {
-//       setSelectedFile(file);
+//     if (e.target.files) {
+//       const maxNewImages = 3 - (existingImages.length - imagesToDelete.length);
+//       const filesArray = Array.from(e.target.files).slice(0, maxNewImages);
+//       setSelectedFiles([...selectedFiles, ...filesArray]);
 //     }
 //   };
 
-//   const columns = [
-//     {
-//       title: "Days",
-//       dataIndex: "days",
-//       key: "days",
-//     },
-//     {
-//       title: "Event Title",
-//       dataIndex: "event",
-//       key: "event",
-//     },
-//     {
-//       title: "Description",
-//       dataIndex: "description",
-//       key: "description",
-//     },
-//     {
-//       title: "Action",
-//       key: "action",
-//       render: (text: any, record: any) => (
-//         <Space size="middle">
-//           <Button type="link" onClick={() => handleDeleteRow(record)} icon={<DeleteOutlined />} />
-//         </Space>
-//       ),
-//     },
-//   ];
+//   const handleDeleteImage = (image: string) => {
+//     setImagesToDelete([...imagesToDelete, image]);
+//     setExistingImages(existingImages.filter((img) => img !== image));
+//   };
+  
+
+// // Already ho chuka hoga
+
+// const columns = [
+//   {
+//     title: "Days",
+//     dataIndex: "days",
+//     key: "days",
+//   },
+//   {
+//     title: "Event Title",
+//     dataIndex: "event",
+//     key: "event",
+//   },
+//   {
+//     title: "Description",
+//     dataIndex: "description",
+//     key: "description",
+//   },
+//   {
+//     title: "Action",
+//     key: "action",
+//     render: (_text: any, _record: any, index: number) => (
+//       <Space size="middle">
+//         <Button
+//           type="link"
+//           icon={<EditOutlined />}
+//           onClick={() => handleEditRow(index)}
+//         />
+//         <Button
+//           type="link"
+//           danger
+//           icon={<DeleteOutlined />}
+//           onClick={() => handleDeleteRow(tableData[index])}
+//         />
+//       </Space>
+//     ),
+//   },
+// ];
+
 
 //   const handleDone = (index: number) => {
 //     const newTableData = [...tableData];
@@ -196,12 +232,19 @@
 //           CostIncludes: tabledataIncludepackages,
 //           CostExcludes: tabledataCostExcludes,
 //           Highlights: tabledataHighlights,
+//           Images: [
+//             ...existingImages,
+//             ...selectedFiles.map((file) => `/uploads/${Date.now()}-${file.name}`),
+//           ],
 //         },
 //       })
 //     );
-//     if (selectedFile) {
-//       formData.append("file", selectedFile);
-//     }
+//     selectedFiles.forEach((file, index) => {
+//       formData.append(`images[${index}]`, file);
+//     });
+//     imagesToDelete.forEach((image, index) => {
+//       formData.append(`deleteImages[${index}]`, image);
+//     });
 
 //     try {
 //       const response = await axios.put(
@@ -214,8 +257,6 @@
 //         }
 //       );
 //       console.log("Package updated successfully:", response.data);
-//       onSuccess();
-//       BoxStateChange(false);
 //       setPackageName("");
 //       setPackageDescription("");
 //       setPackageCategoryId("");
@@ -225,11 +266,19 @@
 //       setPackageRateNormal("");
 //       setPackageRateDeluxe("");
 //       setPackageTotalPersons("");
+//       setItinerary([]);
 //       setTableData([]);
+//       setCostIncludes([]);
+//       setCostExcludes([]);
+//       setHighlights([]);
 //       setTabledataIncludepackages([]);
 //       setTabledataCostExcludes([]);
 //       setTabledataHighlights([]);
-//       setSelectedFile(null);
+//       setSelectedFiles([]);
+//       setExistingImages([]);
+//       setImagesToDelete([]);
+//       onSuccess();
+//       BoxStateChange(false);
 //     } catch (error) {
 //       console.error("Error updating package:", error);
 //     }
@@ -299,7 +348,17 @@
 //             />
 //           </label>
 //           <label className="font-semibold w-44">
-//             Package Rates Normal
+//             Package Description
+//             <Input
+//               style={{ marginTop: 5 }}
+//               type="text"
+//               onChange={(e) => setPackageDescription(e.target.value)}
+//               value={packageDescription}
+//               required
+//             />
+//           </label>
+//           <label className="font-semibold w-44">
+//             Package Rates Normal in AED
 //             <Input
 //               style={{ marginTop: 5 }}
 //               type="text"
@@ -309,7 +368,7 @@
 //             />
 //           </label>
 //           <label className="font-semibold w-44">
-//             Package Rates Deluxe
+//             Package Rates Deluxe in AED 
 //             <Input
 //               style={{ marginTop: 5 }}
 //               type="text"
@@ -333,7 +392,7 @@
 //         <div>
 //           <h2 className="text-lg font-semibold">Package Itineraries</h2>
 //           <Button type="primary" onClick={handleAddItinerary}>
-//             Add Itinerary
+//             Add Itinerary 
 //           </Button>
 //           {itinerary.map((itineraryItem, index) => (
 //             <div key={index}>
@@ -545,14 +604,45 @@
 //           )}
 
 //           <div>
-//             <h2 className="text-lg font-semibold mt-5">Package Images</h2>
+//             <h2 className="text-lg font-semibold mt-5">Package Images (Max 3)</h2>
 //             <label className="font-semibold px-5">
 //               <Input
 //                 style={{ width: 240, padding: "25px 10px", marginTop: 10 }}
 //                 type="file"
+//                 multiple
+//                 accept="image/*"
 //                 onChange={handleFileChange}
+//                 disabled={existingImages.length - imagesToDelete.length >= 3}
 //               />
 //             </label>
+//             {existingImages.length > 0 && (
+//               <div className="px-5 mt-2">
+//                 <p>Existing images:</p>
+//                 <ul>
+//                   {existingImages.map((image, index) => (
+//                     <li key={index} className="flex items-center">
+//                       {image}
+//                       <Button
+//                         type="link"
+//                         danger
+//                         icon={<DeleteOutlined />}
+//                         onClick={() => handleDeleteImage(image)}
+//                       />
+//                     </li>
+//                   ))}
+//                 </ul>
+//               </div>
+//             )}
+//             {selectedFiles.length > 0 && (
+//               <div className="px-5 mt-2">
+//                 <p>New images:</p>
+//                 <ul>
+//                   {selectedFiles.map((file, index) => (
+//                     <li key={index}>{file.name}</li>
+//                   ))}
+//                 </ul>
+//               </div>
+//             )}
 //           </div>
 //         </div>
 //       </form>
@@ -563,7 +653,6 @@
 // export default UpdationBox;
 import { Button, Input, Modal, Space, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -660,21 +749,6 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
     setCostExcludes(updatedCostExcludes);
   };
 
-  const handleDeletePackage = (indexToDelete: number) => {
-    const updatedTableData = tabledataIncludepackages.filter((item, index) => index !== indexToDelete);
-    setTabledataIncludepackages(updatedTableData);
-  };
-
-  const handleDeleteCostExcludes = (indexToDelete: number) => {
-    const updatedTableData = tabledataCostExcludes.filter((item, index) => index !== indexToDelete);
-    setTabledataCostExcludes(updatedTableData);
-  };
-
-  const handleDeleteHighlights = (indexToDelete: number) => {
-    const updatedTableData = tabledataHighlights.filter((item, index) => index !== indexToDelete);
-    setTabledataHighlights(updatedTableData);
-  };
-
   const handleDoneIncludePackages = (index: number) => {
     const newTableData = [...tabledataIncludepackages];
     newTableData.push(costIncludes[index]);
@@ -688,21 +762,53 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
   const handleAddItinerary = () => {
     setItinerary([...itinerary, { days: "", event: "", description: "" }]);
   };
-  const handleEditRow = (index: number) => {
-  const selected = tableData[index];
-  setItinerary([
-    ...itinerary,
-    {
-      days: selected.days,
-      event: selected.event,
-      description: selected.description,
-    },
-  ]);
-};
 
-  const handleDeleteRow = (record: any) => {
-    const newTableData = tableData.filter((item) => item !== record);
+  const handleEditItinerary = (index: number) => {
+    const selected = tableData[index];
+    setItinerary([...itinerary, { ...selected }]);
+    const newTableData = tableData.filter((_, i) => i !== index);
     setTableData(newTableData);
+  };
+
+  const handleEditCostInclude = (index: number) => {
+    const selected = tabledataIncludepackages[index];
+    setCostIncludes([...costIncludes, selected]);
+    const newTableData = tabledataIncludepackages.filter((_, i) => i !== index);
+    setTabledataIncludepackages(newTableData);
+  };
+
+  const handleEditCostExclude = (index: number) => {
+    const selected = tabledataCostExcludes[index];
+    setCostExcludes([...costExcludes, selected]);
+    const newTableData = tabledataCostExcludes.filter((_, i) => i !== index);
+    setTabledataCostExcludes(newTableData);
+  };
+
+  const handleEditHighlight = (index: number) => {
+    const selected = tabledataHighlights[index];
+    setHighlights([...highlights, selected]);
+    const newTableData = tabledataHighlights.filter((_, i) => i !== index);
+    setTabledataHighlights(newTableData);
+  };
+
+  const handleDeleteRow = (index: number) => {
+    const newTableData = tableData.filter((_, i) => i !== index);
+    setTableData(newTableData);
+  };
+
+  const handleDeletePackage = (index: number) => {
+    const updatedTableData = tabledataIncludepackages.filter((_, i) => i !== index);
+    setTabledataIncludepackages(updatedTableData);
+  };
+
+  const handleDeleteCostExcludes = (index: number) => {
+    const updatedTableData = tabledataCostExcludes.filter((_, i) => i !== index);
+    setTabledataCostExcludes(updatedTableData);
+  };
+
+  const handleDeleteHighlights = (index: number) => {
+    const updatedTableData = tabledataHighlights.filter((_, i) => i !== index);
+    setTabledataHighlights(updatedTableData);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -717,47 +823,115 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
     setImagesToDelete([...imagesToDelete, image]);
     setExistingImages(existingImages.filter((img) => img !== image));
   };
-  
 
-// Already ho chuka hoga
+  const columns = [
+    {
+      title: "Days",
+      dataIndex: "days",
+      key: "days",
+    },
+    {
+      title: "Event Title",
+      dataIndex: "event",
+      key: "event",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, __: any, index: number) => (
+        <Space size="middle">
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => handleEditItinerary(index)}
+          />
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeleteRow(index)}
+          />
+        </Space>
+      ),
+    },
+  ];
 
-const columns = [
-  {
-    title: "Days",
-    dataIndex: "days",
-    key: "days",
-  },
-  {
-    title: "Event Title",
-    dataIndex: "event",
-    key: "event",
-  },
-  {
-    title: "Description",
-    dataIndex: "description",
-    key: "description",
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_text: any, _record: any, index: number) => (
-      <Space size="middle">
-        <Button
-          type="link"
-          icon={<EditOutlined />}
-          onClick={() => handleEditRow(index)}
-        />
-        <Button
-          type="link"
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => handleDeleteRow(tableData[index])}
-        />
-      </Space>
-    ),
-  },
-];
+  const costIncludeColumns = [
+    { title: "Cost Include", dataIndex: "package", key: "package" },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "action",
+      render: (_: any, __: any, index: number) => (
+        <Space size="middle">
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => handleEditCostInclude(index)}
+          />
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeletePackage(index)}
+          />
+        </Space>
+      ),
+    },
+  ];
 
+  const costExcludeColumns = [
+    { title: "Cost Exclude", dataIndex: "package", key: "package" },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "action",
+      render: (_: any, __: any, index: number) => (
+        <Space size="middle">
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => handleEditCostExclude(index)}
+          />
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeleteCostExcludes(index)}
+          />
+        </Space>
+      ),
+    },
+  ];
+
+  const highlightColumns = [
+    { title: "Highlights", dataIndex: "package", key: "package" },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "action",
+      render: (_: any, __: any, index: number) => (
+        <Space size="middle">
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => handleEditHighlight(index)}
+          />
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeleteHighlights(index)}
+          />
+        </Space>
+      ),
+    },
+  ];
 
   const handleDone = (index: number) => {
     const newTableData = [...tableData];
@@ -1022,7 +1196,7 @@ const columns = [
             </Button>
             {costIncludes.map((packageItem, index) => (
               <div key={index} className="px-5 py-2 flex flex-col">
-                <label className="font-semibold">Package {index + 1}</label>
+                <label className="font-semibold">Cost Include {index + 1}</label>
                 <Input
                   style={{ width: "100%", marginTop: 5, marginBottom: 2 }}
                   type="text"
@@ -1045,23 +1219,8 @@ const columns = [
           </div>
           {tabledataIncludepackages.length > 0 && (
             <Table
-              dataSource={tabledataIncludepackages.map((item) => ({ package: item }))}
-              columns={[
-                { title: "Package", dataIndex: "package", key: "package" },
-                {
-                  title: "Action",
-                  dataIndex: "",
-                  key: "action",
-                  render: (_text: any, _record: any, index: number) => (
-                    <Button
-                      type="link"
-                      danger
-                      icon={<DeleteOutlined />}
-                      onClick={() => handleDeletePackage(index)}
-                    />
-                  ),
-                },
-              ]}
+              dataSource={tabledataIncludepackages.map((item, index) => ({ key: index, package: item }))}
+              columns={costIncludeColumns}
             />
           )}
 
@@ -1072,7 +1231,7 @@ const columns = [
             </Button>
             {costExcludes.map((packageItem, index) => (
               <div key={index} className="px-5 py-2 flex flex-col">
-                <label className="font-semibold">Package {index + 1}</label>
+                <label className="font-semibold">Cost Exclude {index + 1}</label>
                 <Input
                   style={{ width: "100%", marginTop: 5, marginBottom: 2 }}
                   type="text"
@@ -1095,23 +1254,8 @@ const columns = [
           </div>
           {tabledataCostExcludes.length > 0 && (
             <Table
-              dataSource={tabledataCostExcludes.map((item) => ({ package: item }))}
-              columns={[
-                { title: "Cost Exclude", dataIndex: "package", key: "package" },
-                {
-                  title: "Action",
-                  dataIndex: "",
-                  key: "action",
-                  render: (_text: any, _record: any, index: number) => (
-                    <Button
-                      type="link"
-                      danger
-                      icon={<DeleteOutlined />}
-                      onClick={() => handleDeleteCostExcludes(index)}
-                    />
-                  ),
-                },
-              ]}
+              dataSource={tabledataCostExcludes.map((item, index) => ({ key: index, package: item }))}
+              columns={costExcludeColumns}
             />
           )}
 
@@ -1122,7 +1266,7 @@ const columns = [
             </Button>
             {highlights.map((packageItem, index) => (
               <div key={index} className="px-5 py-2 flex flex-col">
-                <label className="font-semibold">Package {index + 1}</label>
+                <label className="font-semibold">Highlight {index + 1}</label>
                 <Input
                   style={{ width: "100%", marginTop: 5, marginBottom: 2 }}
                   type="text"
@@ -1145,23 +1289,8 @@ const columns = [
           </div>
           {tabledataHighlights.length > 0 && (
             <Table
-              dataSource={tabledataHighlights.map((item) => ({ package: item }))}
-              columns={[
-                { title: "Highlights", dataIndex: "package", key: "package" },
-                {
-                  title: "Action",
-                  dataIndex: "",
-                  key: "action",
-                  render: (_text: any, _record: any, index: number) => (
-                    <Button
-                      type="link"
-                      danger
-                      icon={<DeleteOutlined />}
-                      onClick={() => handleDeleteHighlights(index)}
-                    />
-                  ),
-                },
-              ]}
+              dataSource={tabledataHighlights.map((item, index) => ({ key: index, package: item }))}
+              columns={highlightColumns}
             />
           )}
 
@@ -1213,3 +1342,4 @@ const columns = [
 };
 
 export default UpdationBox;
+
