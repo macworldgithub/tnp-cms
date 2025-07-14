@@ -30,7 +30,7 @@ function SideBar() {
         <div className="">
           <div className="flex items-center justify-start px-5 cursor-pointer">
             <div
-              className="flex justify-start w-10 h-10 items-center"
+              className="flex justify-start w-16 h-16 items-center"
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               <img src={Logo} className="w-full h-full" />
