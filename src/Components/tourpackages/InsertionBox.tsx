@@ -1,3 +1,6 @@
+
+
+// // export default InsertionBox;
 // import { Button, Input, Modal, Space, Table } from "antd";
 // import { DeleteOutlined } from "@ant-design/icons";
 // import axios from "axios";
@@ -28,10 +31,14 @@
 //   const [costIncludes, setCostIncludes] = useState<string[]>([]);
 //   const [costExcludes, setCostExcludes] = useState<string[]>([]);
 //   const [highlights, setHighlights] = useState<string[]>([]);
-//   const [tabledataIncludepackages, setTabledataIncludepackages] = useState<string[]>([]);
-//   const [tabledataCostExcludes, setTabledataCostExcludes] = useState<string[]>([]);
+//   const [tabledataIncludepackages, setTabledataIncludepackages] = useState<
+//     string[]
+//   >([]);
+//   const [tabledataCostExcludes, setTabledataCostExcludes] = useState<string[]>(
+//     []
+//   );
 //   const [tabledataHighlights, setTabledataHighlights] = useState<string[]>([]);
-//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+//   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
 //   const handleAddPackage = () => {
 //     setCostIncludes([...costIncludes, ""]);
@@ -66,17 +73,23 @@
 //   };
 
 //   const handleDeletePackage = (indexToDelete: number) => {
-//     const updatedTableData = tabledataIncludepackages.filter((item, index) => index !== indexToDelete);
+//     const updatedTableData = tabledataIncludepackages.filter(
+//       (item, index) => index !== indexToDelete
+//     );
 //     setTabledataIncludepackages(updatedTableData);
 //   };
 
 //   const handleDeleteCostExcludes = (indexToDelete: number) => {
-//     const updatedTableData = tabledataCostExcludes.filter((item, index) => index !== indexToDelete);
+//     const updatedTableData = tabledataCostExcludes.filter(
+//       (item, index) => index !== indexToDelete
+//     );
 //     setTabledataCostExcludes(updatedTableData);
 //   };
 
 //   const handleDeleteHighlights = (indexToDelete: number) => {
-//     const updatedTableData = tabledataHighlights.filter((item, index) => index !== indexToDelete);
+//     const updatedTableData = tabledataHighlights.filter(
+//       (item, index) => index !== indexToDelete
+//     );
 //     setTabledataHighlights(updatedTableData);
 //   };
 
@@ -100,9 +113,9 @@
 //   };
 
 //   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const file = e.target.files && e.target.files[0];
-//     if (file) {
-//       setSelectedFile(file);
+//     if (e.target.files) {
+//       const filesArray = Array.from(e.target.files).slice(0, 3); // Limit to 3 files
+//       setSelectedFiles(filesArray);
 //     }
 //   };
 
@@ -127,7 +140,11 @@
 //       key: "action",
 //       render: (text: any, record: any) => (
 //         <Space size="middle">
-//           <Button type="link" onClick={() => handleDeleteRow(record)} icon={<DeleteOutlined />} />
+//           <Button
+//             type="link"
+//             onClick={() => handleDeleteRow(record)}
+//             icon={<DeleteOutlined />}
+//           />
 //         </Space>
 //       ),
 //     },
@@ -167,12 +184,13 @@
 //           CostIncludes: tabledataIncludepackages,
 //           CostExcludes: tabledataCostExcludes,
 //           Highlights: tabledataHighlights,
+//           Images: selectedFiles.map((file) => file.name),
 //         },
 //       })
 //     );
-//     if (selectedFile) {
-//       formData.append("file", selectedFile);
-//     }
+//     selectedFiles.forEach((file, index) => {
+//       formData.append(`images[${index}]`, file);
+//     });
 
 //     try {
 //       const response = await axios.post(
@@ -194,11 +212,15 @@
 //       setPackageRateNormal("");
 //       setPackageRateDeluxe("");
 //       setPackageTotalPersons("");
+//       setItinerary([]);
 //       setTableData([]);
+//       setCostIncludes([]);
+//       setCostExcludes([]);
+//       setHighlights([]);
 //       setTabledataIncludepackages([]);
 //       setTabledataCostExcludes([]);
 //       setTabledataHighlights([]);
-//       setSelectedFile(null);
+//       setSelectedFiles([]);
 //       onSuccess();
 //       BoxStateChange(false);
 //     } catch (error) {
@@ -218,7 +240,13 @@
 //       onCancel={() => BoxStateChange(false)}
 //       width={1000}
 //     >
-//       <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="flex flex-col gap-5">
+//       <form
+//         onSubmit={(e) => {
+//           e.preventDefault();
+//           handleSubmit();
+//         }}
+//         className="flex flex-col gap-5"
+//       >
 //         <div className="flex flex-wrap px-5 gap-2">
 //           <label className="font-semibold w-44">
 //             Package Name
@@ -271,6 +299,16 @@
 //             />
 //           </label>
 //           <label className="font-semibold w-44">
+//             Package Description
+//             <Input
+//               style={{ marginTop: 5 }}
+//               type="text"
+//               onChange={(e) => setPackageDescription(e.target.value)}
+//               value={packageDescription}
+//               required
+//             />
+//           </label>
+//           <label className="font-semibold w-44">
 //             Package Rates Normal
 //             <Input
 //               style={{ marginTop: 5 }}
@@ -309,7 +347,9 @@
 //           </Button>
 //           {itinerary.map((itineraryItem, index) => (
 //             <div key={index}>
-//               <h2 className="text-lg font-semibold">Package Itinerary {index + 1}</h2>
+//               <h2 className="text-lg font-semibold">
+//                 Package Itinerary {index + 1}
+//               </h2>
 //               <label className="font-semibold flex px-5 flex-col pt-5">
 //                 Days
 //                 <Input
@@ -328,7 +368,12 @@
 //                 <label className="font-semibold w-44">
 //                   Event Title
 //                   <Input
-//                     style={{ height: 100, width: 320, marginRight: 10, marginTop: 5 }}
+//                     style={{
+//                       height: 100,
+//                       width: 320,
+//                       marginRight: 10,
+//                       marginTop: 5,
+//                     }}
 //                     type="text"
 //                     onChange={(e) => {
 //                       const newItinerary = [...itinerary];
@@ -341,9 +386,7 @@
 //                 </label>
 //                 <div className="flex justify-center items-center gap-4">
 //                   <div className="flex flex-col">
-//                     <label className="font-semibold w-44">
-//                       Description
-//                     </label>
+//                     <label className="font-semibold w-44">Description</label>
 //                     <Input
 //                       style={{ height: 100, width: 320, marginTop: 5 }}
 //                       type="text"
@@ -356,7 +399,10 @@
 //                       required
 //                     />
 //                   </div>
-//                   <Button className="bg-yellow-400" onClick={() => handleDone(index)}>
+//                   <Button
+//                     className="bg-yellow-400"
+//                     onClick={() => handleDone(index)}
+//                   >
 //                     Done
 //                   </Button>
 //                 </div>
@@ -364,7 +410,9 @@
 //             </div>
 //           ))}
 
-//           {tableData.length > 0 && <Table columns={columns} dataSource={tableData} />}
+//           {tableData.length > 0 && (
+//             <Table columns={columns} dataSource={tableData} />
+//           )}
 
 //           <div>
 //             <h2 className="text-lg font-semibold">Cost Include</h2>
@@ -396,7 +444,9 @@
 //           </div>
 //           {tabledataIncludepackages.length > 0 && (
 //             <Table
-//               dataSource={tabledataIncludepackages.map((item) => ({ package: item }))}
+//               dataSource={tabledataIncludepackages.map((item) => ({
+//                 package: item,
+//               }))}
 //               columns={[
 //                 { title: "Package", dataIndex: "package", key: "package" },
 //                 {
@@ -446,7 +496,9 @@
 //           </div>
 //           {tabledataCostExcludes.length > 0 && (
 //             <Table
-//               dataSource={tabledataCostExcludes.map((item) => ({ package: item }))}
+//               dataSource={tabledataCostExcludes.map((item) => ({
+//                 package: item,
+//               }))}
 //               columns={[
 //                 { title: "Cost Exclude", dataIndex: "package", key: "package" },
 //                 {
@@ -496,7 +548,9 @@
 //           </div>
 //           {tabledataHighlights.length > 0 && (
 //             <Table
-//               dataSource={tabledataHighlights.map((item) => ({ package: item }))}
+//               dataSource={tabledataHighlights.map((item) => ({
+//                 package: item,
+//               }))}
 //               columns={[
 //                 { title: "Highlights", dataIndex: "package", key: "package" },
 //                 {
@@ -517,15 +571,20 @@
 //           )}
 
 //           <div>
-//             <h2 className="text-lg font-semibold mt-5">Package Images</h2>
+//             <h2 className="text-lg font-semibold mt-5">
+//               Package Images (Max 3)
+//             </h2>
 //             <label className="font-semibold px-5">
 //               <Input
 //                 style={{ width: 240, padding: "25px 10px", marginTop: 10 }}
 //                 type="file"
+//                 multiple
+//                 accept="image/*"
 //                 onChange={handleFileChange}
 //                 required
 //               />
 //             </label>
+//             <p>Selected files: {selectedFiles.length} / 3</p>
 //           </div>
 //         </div>
 //       </form>
@@ -637,7 +696,7 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
   };
 
   const handleAddItinerary = () => {
-    setItinerary([...itinerary, { days: "", event: "", description: "" }]);
+    setItinerary([...itinerary, { days: "", event: "", description: "", price: "" }]);
   };
 
   const handleDeleteRow = (record: any) => {
@@ -669,6 +728,11 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
       key: "description",
     },
     {
+      title: "Price (AED)",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
       title: "Action",
       key: "action",
       render: (text: any, record: any) => (
@@ -690,6 +754,7 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
       days: itinerary[index].days,
       event: itinerary[index].event,
       description: itinerary[index].description,
+      price: itinerary[index].price,
     });
     setTableData(newTableData);
     const updatedItinerary = [...itinerary];
@@ -898,25 +963,45 @@ const InsertionBox: React.FC<InsertionBoxProps> = ({
                 />
               </label>
               <div className="flex gap-48 px-5 mt-5">
-                <label className="font-semibold w-44">
-                  Event Title
-                  <Input
-                    style={{
-                      height: 100,
-                      width: 320,
-                      marginRight: 10,
-                      marginTop: 5,
-                    }}
-                    type="text"
-                    onChange={(e) => {
-                      const newItinerary = [...itinerary];
-                      newItinerary[index].event = e.target.value;
-                      setItinerary(newItinerary);
-                    }}
-                    value={itineraryItem.event}
-                    required
-                  />
-                </label>
+                <div className="flex flex-col gap-4">
+                  <label className="font-semibold w-44">
+                    Event Title
+                    <Input
+                      style={{
+                        height: 100,
+                        width: 320,
+                        marginRight: 10,
+                        marginTop: 5,
+                      }}
+                      type="text"
+                      onChange={(e) => {
+                        const newItinerary = [...itinerary];
+                        newItinerary[index].event = e.target.value;
+                        setItinerary(newItinerary);
+                      }}
+                      value={itineraryItem.event}
+                      required
+                    />
+                  </label>
+                  <label className="font-semibold w-44">
+                    Price (AED)
+                    <Input
+                      style={{
+                        width: 320,
+                        marginRight: 10,
+                        marginTop: 5,
+                      }}
+                      type="number"
+                      onChange={(e) => {
+                        const newItinerary = [...itinerary];
+                        newItinerary[index].price = e.target.value;
+                        setItinerary(newItinerary);
+                      }}
+                      value={itineraryItem.price}
+                      required
+                    />
+                  </label>
+                </div>
                 <div className="flex justify-center items-center gap-4">
                   <div className="flex flex-col">
                     <label className="font-semibold w-44">Description</label>

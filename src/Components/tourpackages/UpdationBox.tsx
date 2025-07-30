@@ -1,7 +1,6 @@
 
 // import { Button, Input, Modal, Space, Table } from "antd";
 // import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
 // import axios from "axios";
 // import { useState, useEffect } from "react";
 
@@ -98,21 +97,6 @@
 //     setCostExcludes(updatedCostExcludes);
 //   };
 
-//   const handleDeletePackage = (indexToDelete: number) => {
-//     const updatedTableData = tabledataIncludepackages.filter((item, index) => index !== indexToDelete);
-//     setTabledataIncludepackages(updatedTableData);
-//   };
-
-//   const handleDeleteCostExcludes = (indexToDelete: number) => {
-//     const updatedTableData = tabledataCostExcludes.filter((item, index) => index !== indexToDelete);
-//     setTabledataCostExcludes(updatedTableData);
-//   };
-
-//   const handleDeleteHighlights = (indexToDelete: number) => {
-//     const updatedTableData = tabledataHighlights.filter((item, index) => index !== indexToDelete);
-//     setTabledataHighlights(updatedTableData);
-//   };
-
 //   const handleDoneIncludePackages = (index: number) => {
 //     const newTableData = [...tabledataIncludepackages];
 //     newTableData.push(costIncludes[index]);
@@ -126,21 +110,53 @@
 //   const handleAddItinerary = () => {
 //     setItinerary([...itinerary, { days: "", event: "", description: "" }]);
 //   };
-//   const handleEditRow = (index: number) => {
-//   const selected = tableData[index];
-//   setItinerary([
-//     ...itinerary,
-//     {
-//       days: selected.days,
-//       event: selected.event,
-//       description: selected.description,
-//     },
-//   ]);
-// };
 
-//   const handleDeleteRow = (record: any) => {
-//     const newTableData = tableData.filter((item) => item !== record);
+//   const handleEditItinerary = (index: number) => {
+//     const selected = tableData[index];
+//     setItinerary([...itinerary, { ...selected }]);
+//     const newTableData = tableData.filter((_, i) => i !== index);
 //     setTableData(newTableData);
+//   };
+
+//   const handleEditCostInclude = (index: number) => {
+//     const selected = tabledataIncludepackages[index];
+//     setCostIncludes([...costIncludes, selected]);
+//     const newTableData = tabledataIncludepackages.filter((_, i) => i !== index);
+//     setTabledataIncludepackages(newTableData);
+//   };
+
+//   const handleEditCostExclude = (index: number) => {
+//     const selected = tabledataCostExcludes[index];
+//     setCostExcludes([...costExcludes, selected]);
+//     const newTableData = tabledataCostExcludes.filter((_, i) => i !== index);
+//     setTabledataCostExcludes(newTableData);
+//   };
+
+//   const handleEditHighlight = (index: number) => {
+//     const selected = tabledataHighlights[index];
+//     setHighlights([...highlights, selected]);
+//     const newTableData = tabledataHighlights.filter((_, i) => i !== index);
+//     setTabledataHighlights(newTableData);
+//   };
+
+//   const handleDeleteRow = (index: number) => {
+//     const newTableData = tableData.filter((_, i) => i !== index);
+//     setTableData(newTableData);
+//   };
+
+//   const handleDeletePackage = (index: number) => {
+//     const updatedTableData = tabledataIncludepackages.filter((_, i) => i !== index);
+//     setTabledataIncludepackages(updatedTableData);
+//   };
+
+//   const handleDeleteCostExcludes = (index: number) => {
+//     const updatedTableData = tabledataCostExcludes.filter((_, i) => i !== index);
+//     setTabledataCostExcludes(updatedTableData);
+//   };
+
+//   const handleDeleteHighlights = (index: number) => {
+//     const updatedTableData = tabledataHighlights.filter((_, i) => i !== index);
+//     setTabledataHighlights(updatedTableData);
 //   };
 
 //   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,47 +171,115 @@
 //     setImagesToDelete([...imagesToDelete, image]);
 //     setExistingImages(existingImages.filter((img) => img !== image));
 //   };
-  
 
-// // Already ho chuka hoga
+//   const columns = [
+//     {
+//       title: "Days",
+//       dataIndex: "days",
+//       key: "days",
+//     },
+//     {
+//       title: "Event Title",
+//       dataIndex: "event",
+//       key: "event",
+//     },
+//     {
+//       title: "Description",
+//       dataIndex: "description",
+//       key: "description",
+//     },
+//     {
+//       title: "Action",
+//       key: "action",
+//       render: (_: any, __: any, index: number) => (
+//         <Space size="middle">
+//           <Button
+//             type="link"
+//             icon={<EditOutlined />}
+//             onClick={() => handleEditItinerary(index)}
+//           />
+//           <Button
+//             type="link"
+//             danger
+//             icon={<DeleteOutlined />}
+//             onClick={() => handleDeleteRow(index)}
+//           />
+//         </Space>
+//       ),
+//     },
+//   ];
 
-// const columns = [
-//   {
-//     title: "Days",
-//     dataIndex: "days",
-//     key: "days",
-//   },
-//   {
-//     title: "Event Title",
-//     dataIndex: "event",
-//     key: "event",
-//   },
-//   {
-//     title: "Description",
-//     dataIndex: "description",
-//     key: "description",
-//   },
-//   {
-//     title: "Action",
-//     key: "action",
-//     render: (_text: any, _record: any, index: number) => (
-//       <Space size="middle">
-//         <Button
-//           type="link"
-//           icon={<EditOutlined />}
-//           onClick={() => handleEditRow(index)}
-//         />
-//         <Button
-//           type="link"
-//           danger
-//           icon={<DeleteOutlined />}
-//           onClick={() => handleDeleteRow(tableData[index])}
-//         />
-//       </Space>
-//     ),
-//   },
-// ];
+//   const costIncludeColumns = [
+//     { title: "Cost Include", dataIndex: "package", key: "package" },
+//     {
+//       title: "Action",
+//       dataIndex: "",
+//       key: "action",
+//       render: (_: any, __: any, index: number) => (
+//         <Space size="middle">
+//           <Button
+//             type="link"
+//             icon={<EditOutlined />}
+//             onClick={() => handleEditCostInclude(index)}
+//           />
+//           <Button
+//             type="link"
+//             danger
+//             icon={<DeleteOutlined />}
+//             onClick={() => handleDeletePackage(index)}
+//           />
+//         </Space>
+//       ),
+//     },
+//   ];
 
+//   const costExcludeColumns = [
+//     { title: "Cost Exclude", dataIndex: "package", key: "package" },
+//     {
+//       title: "Action",
+//       dataIndex: "",
+//       key: "action",
+//       render: (_: any, __: any, index: number) => (
+//         <Space size="middle">
+//           <Button
+//             type="link"
+//             icon={<EditOutlined />}
+//             onClick={() => handleEditCostExclude(index)}
+//           />
+//           <Button
+//             type="link"
+//             danger
+//             icon={<DeleteOutlined />}
+//             onClick={() => handleDeleteCostExcludes(index)}
+//           />
+//         </Space>
+//       ),
+//     },
+//   ];
+
+//   const highlightColumns = [
+//     { title: "Highlights", dataIndex: "package", key: "package" },
+//     {
+//       title: "Action",
+//       dataIndex: "",
+//       key: "action",
+//       render: (_: any, __: any, index: number) => (
+//         <Space size="middle">
+//           <Button
+//             type="link"
+//             icon={<EditOutlined />}
+//             onClick={() => handleEditHighlight(index)}
+//           />
+//           <Button
+//             type="link"
+//             danger
+//             icon={<DeleteOutlined />}
+//             onClick={() => handleDeleteHighlights(index)}
+//           />
+//         </Space>
+//       ),
+//     },
+//   ];
 
 //   const handleDone = (index: number) => {
 //     const newTableData = [...tableData];
@@ -460,7 +544,7 @@
 //             </Button>
 //             {costIncludes.map((packageItem, index) => (
 //               <div key={index} className="px-5 py-2 flex flex-col">
-//                 <label className="font-semibold">Package {index + 1}</label>
+//                 <label className="font-semibold">Cost Include {index + 1}</label>
 //                 <Input
 //                   style={{ width: "100%", marginTop: 5, marginBottom: 2 }}
 //                   type="text"
@@ -483,23 +567,8 @@
 //           </div>
 //           {tabledataIncludepackages.length > 0 && (
 //             <Table
-//               dataSource={tabledataIncludepackages.map((item) => ({ package: item }))}
-//               columns={[
-//                 { title: "Package", dataIndex: "package", key: "package" },
-//                 {
-//                   title: "Action",
-//                   dataIndex: "",
-//                   key: "action",
-//                   render: (_text: any, _record: any, index: number) => (
-//                     <Button
-//                       type="link"
-//                       danger
-//                       icon={<DeleteOutlined />}
-//                       onClick={() => handleDeletePackage(index)}
-//                     />
-//                   ),
-//                 },
-//               ]}
+//               dataSource={tabledataIncludepackages.map((item, index) => ({ key: index, package: item }))}
+//               columns={costIncludeColumns}
 //             />
 //           )}
 
@@ -510,7 +579,7 @@
 //             </Button>
 //             {costExcludes.map((packageItem, index) => (
 //               <div key={index} className="px-5 py-2 flex flex-col">
-//                 <label className="font-semibold">Package {index + 1}</label>
+//                 <label className="font-semibold">Cost Exclude {index + 1}</label>
 //                 <Input
 //                   style={{ width: "100%", marginTop: 5, marginBottom: 2 }}
 //                   type="text"
@@ -533,23 +602,8 @@
 //           </div>
 //           {tabledataCostExcludes.length > 0 && (
 //             <Table
-//               dataSource={tabledataCostExcludes.map((item) => ({ package: item }))}
-//               columns={[
-//                 { title: "Cost Exclude", dataIndex: "package", key: "package" },
-//                 {
-//                   title: "Action",
-//                   dataIndex: "",
-//                   key: "action",
-//                   render: (_text: any, _record: any, index: number) => (
-//                     <Button
-//                       type="link"
-//                       danger
-//                       icon={<DeleteOutlined />}
-//                       onClick={() => handleDeleteCostExcludes(index)}
-//                     />
-//                   ),
-//                 },
-//               ]}
+//               dataSource={tabledataCostExcludes.map((item, index) => ({ key: index, package: item }))}
+//               columns={costExcludeColumns}
 //             />
 //           )}
 
@@ -560,7 +614,7 @@
 //             </Button>
 //             {highlights.map((packageItem, index) => (
 //               <div key={index} className="px-5 py-2 flex flex-col">
-//                 <label className="font-semibold">Package {index + 1}</label>
+//                 <label className="font-semibold">Highlight {index + 1}</label>
 //                 <Input
 //                   style={{ width: "100%", marginTop: 5, marginBottom: 2 }}
 //                   type="text"
@@ -583,23 +637,8 @@
 //           </div>
 //           {tabledataHighlights.length > 0 && (
 //             <Table
-//               dataSource={tabledataHighlights.map((item) => ({ package: item }))}
-//               columns={[
-//                 { title: "Highlights", dataIndex: "package", key: "package" },
-//                 {
-//                   title: "Action",
-//                   dataIndex: "",
-//                   key: "action",
-//                   render: (_text: any, _record: any, index: number) => (
-//                     <Button
-//                       type="link"
-//                       danger
-//                       icon={<DeleteOutlined />}
-//                       onClick={() => handleDeleteHighlights(index)}
-//                     />
-//                   ),
-//                 },
-//               ]}
+//               dataSource={tabledataHighlights.map((item, index) => ({ key: index, package: item }))}
+//               columns={highlightColumns}
 //             />
 //           )}
 
@@ -651,6 +690,7 @@
 // };
 
 // export default UpdationBox;
+
 import { Button, Input, Modal, Space, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -760,7 +800,7 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
   };
 
   const handleAddItinerary = () => {
-    setItinerary([...itinerary, { days: "", event: "", description: "" }]);
+    setItinerary([...itinerary, { days: "", event: "", description: "", price: "" }]);
   };
 
   const handleEditItinerary = (index: number) => {
@@ -839,6 +879,11 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
       title: "Description",
       dataIndex: "description",
       key: "description",
+    },
+    {
+      title: "Price (AED)",
+      dataIndex: "price",
+      key: "price",
     },
     {
       title: "Action",
@@ -940,6 +985,7 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
       days: itinerary[index].days,
       event: itinerary[index].event,
       description: itinerary[index].description,
+      price: itinerary[index].price,
     });
     setTableData(newTableData);
     const updatedItinerary = [...itinerary];
@@ -1148,20 +1194,36 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
                 />
               </label>
               <div className="flex gap-48 px-5 mt-5">
-                <label className="font-semibold w-44">
-                  Event Title
-                  <Input
-                    style={{ height: 100, width: 320, marginRight: 10, marginTop: 5 }}
-                    type="text"
-                    onChange={(e) => {
-                      const newItinerary = [...itinerary];
-                      newItinerary[index].event = e.target.value;
-                      setItinerary(newItinerary);
-                    }}
-                    value={itineraryItem.event}
-                    required
-                  />
-                </label>
+                <div className="flex flex-col gap-4">
+                  <label className="font-semibold w-44">
+                    Event Title
+                    <Input
+                      style={{ height: 100, width: 320, marginRight: 10, marginTop: 5 }}
+                      type="text"
+                      onChange={(e) => {
+                        const newItinerary = [...itinerary];
+                        newItinerary[index].event = e.target.value;
+                        setItinerary(newItinerary);
+                      }}
+                      value={itineraryItem.event}
+                      required
+                    />
+                  </label>
+                  <label className="font-semibold w-44">
+                    Price (AED)
+                    <Input
+                      style={{ width: 320, marginRight: 10, marginTop: 5 }}
+                      type="number"
+                      onChange={(e) => {
+                        const newItinerary = [...itinerary];
+                        newItinerary[index].price = e.target.value;
+                        setItinerary(newItinerary);
+                      }}
+                      value={itineraryItem.price}
+                      required
+                    />
+                  </label>
+                </div>
                 <div className="flex justify-center items-center gap-4">
                   <div className="flex flex-col">
                     <label className="font-semibold w-44">
@@ -1342,4 +1404,3 @@ const UpdationBox: React.FC<UpdationBoxProps> = ({
 };
 
 export default UpdationBox;
-
